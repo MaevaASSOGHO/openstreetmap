@@ -190,7 +190,7 @@
       document.getElementById('ville-infos').innerHTML = `<strong>Ville sélectionnée :</strong> ${ville}`;
 
       // ➕ API météo
-      const API_KEY = '1294fe710b145ee9ed56b29a36638e87'; 
+      const API_KEY = 'TA CLÉ API À REMPLIR'; 
       try {
         const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=fr&appid=${API_KEY}`);
         const data = await res.json();
