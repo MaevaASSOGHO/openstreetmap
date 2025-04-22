@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Carte des villes ivoiriennes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #9d550e;
+      color: white;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    select, button {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    #map {
+      height: 500px;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    #ville-infos {
+      margin-top: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+      background-color: rgba(255,255,255,0.1);
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌍 Carte des Villes de Côte d'Ivoire</h1>
+
+  <label for="ville">Choisissez une ville :</label><br>
+  <select id="ville">
+    <!-- District d'Abidjan -->
+<optgroup label="District d'Abidjan">
+    <option value="Abobo,5.43081,-4.06229">Abobo</option>
+    <option value="Adjamé,5.36883,-4.01966">Adjamé</option>
+    <option value="Attécoubé,5.36546,-4.05270">Attécoubé</option>
+    <option value="Cocody,5.38215,-3.96512">Cocody</option>
+    <option value="Koumassi,5.29799,-3.93604">Koumassi</option>
+    <option value="Marcory,5.29443,-3.97855">Marcory</option>
+    <option value="Plateau,5.327982,-4.024393">Plateau</option>
+    <option value="Port-Bouët,5.26734,-3.92144">Port-Bouët</option>
+    <option value="Treichville,5.29369,-4.01263">Treichville</option>
+    <option value="Yopougon,5.3177,-4.0769">Yopougon</option>
+    <option value="Bingerville,5.3482,-3.8258">Bingerville</option>
+    <option value="Songon,5.3352,-4.2028">Songon</option>
+  </optgroup>
+  
+  <!-- District des Lagunes -->
+  <optgroup label="District des Lagunes">
+    <option value="Dabou,5.3238,-4.3722">Dabou</option>
+    <option value="Jacqueville,5.20763,-4.41951">Jacqueville</option>
+    <option value="Grand-Bassam,5.2544,-4.2469">Grand-Bassam</option>
+    <option value="Bonoua,5.27361,-3.59674">Bonoua</option>
+    <option value="Tiassalé,5.89565,-4.82506">Tiassalé</option>
+    <option value="Adiaké,5.2363,-3.2961">Adiaké</option>
+    <option value="Aboisso,5.7137,-3.0930">Aboisso</option>
+    <option value="Alépé,5.49664,-3.66381">Alépé</option>
+  </optgroup>
+  
+  <!-- District de Yamoussoukro -->
+  <optgroup label="District de Yamoussoukro">
+    <option value="Yamoussoukro,6.8200,-5.2776">Yamoussoukro</option>
+  </optgroup>
+  
+  <!-- District des Montagnes -->
+  <optgroup label="District des Montagnes">
+    <option value="Man,7.4103,-7.5504">Man</option>
+    <option value="Danané,7.2634,-8.1543">Danané</option>
+    <option value="Guiglo,6.4301,-7.5481">Guiglo</option>
+    <option value="Toulepleu,6.58090,-8.41502">Toulepleu</option>
+    <option value="Bangolo,7.01191,-7.48676">Bangolo</option>
+    <option value="Duékoué,7.05839,-7.52246">Duékoué</option>
+  </optgroup>
+  
+  <!-- District du Sassandra-Marahoué -->
+  <optgroup label="District du Sassandra-Marahoué">
+    <option value="Daloa,6.8870,-6.4530">Daloa</option>
+    <option value="Lakota,5.8511,-5.6828">Lakota</option>
+    <option value="Bouaflé,6.9802,-5.7458">Bouaflé</option>
+    <option value="Zuenoula,7.42802,-6.05003">Zuénoula</option>
+  </optgroup>
+  
+  <!-- District de la Vallée du Bandama -->
+  <optgroup label="District de la Vallée du Bandama">
+    <option value="Bouaké,7.6891,-5.0284">Bouaké</option>
+    <option value="Béoumi,7.67454,-5.58273">Béoumi</option>
+    <option value="Sakassou,7.45348,-5.29235">Sakassou</option>
+    <option value="Katiola,8.0903,-5.1660">Katiola</option>
+    <option value="Dabakala,8.36324,-4.42849">Dabakala</option>
+  </optgroup>
+  
+  <!-- District de la Comoé -->
+  <optgroup label="District de la Comoé">
+    <option value="Abengourou,6.7269,-3.4968">Abengourou</option>
+    <option value="Agnibilékrou,7.0649,-3.3624">Agnibilékrou</option>
+    <option value="Tanda,7.80367,-3.16725">Tanda</option>
+    <option value="Bondoukou,8.0745,-2.8017">Bondoukou</option>
+    <option value="Bouna,9.26872,-2.99898">Bouna</option>
+  </optgroup>
+  
+  <!-- District du Woroba -->
+  <optgroup label="District du Woroba">
+    <option value="Séguéla,7.96141,-6.67024">Séguéla</option>
+    <option value="Mankono,8.0461,-6.0510">Mankono</option>
+    <option value="Touba,8.28410,-7.68181">Touba</option>
+  </optgroup>
+  
+  <!-- District des Savanes -->
+  <optgroup label="District des Savanes">
+    <option value="Korhogo,9.4581,-5.6316">Korhogo</option>
+      <option value="Kong,9.14868,-4.61065">Kong</option>
+    <option value="Ferkessédougou,9.5936,-5.1982">Ferkessédougou</option>
+    <option value="Boundiali,9.52323,-6.48202">Boundiali</option>
+    <option value="Tengréla,10.4749,-6.4189">Tengréla</option>
+    <option value="Sinématiali,9.58408,-5.38403">Sinématiali</option>
+  <option value="Odiénné,9.50443,-7.56194">Odiénné</option>
+   <option value="Minignan,9.99648,-7.83669">Minignan</option>
+  </optgroup>
+  
+  <!-- District du Gôh-Djiboua -->
+  <optgroup label="District du Gôh-Djiboua">
+    <option value="Gagnoa,6.1335,-5.9511">Gagnoa</option>
+    <option value="Oumé,6.3818,-5.4180">Oumé</option>
+    <option value="Zouan-Hounien,6.91983,-8.20892">Zouan-Hounien</option>
+  </optgroup>
+  
+  <!-- District du Lacs -->
+  <optgroup label="District du Lacs">
+    <option value="Tiapoum,5.2578,-2.9114">Tiapoum</option>
+    <option value="Agboville,5.9308,-4.2131">Agboville</option>
+    <option value="Alépé,5.49661,-3.66389">Alépé</option>
+  </optgroup>
+  
+  <!-- District du Bas-Sassandra -->
+  <optgroup label="District du Bas-Sassandra">
+    <option value="San-Pédro,4.7590,-6.6464">San-Pédro</option>
+    <option value="Sassandra,5.3306,-6.3214">Sassandra</option>
+    <option value="Tabou,4.41628,-7.35592">Tabou</option>
+  </optgroup>
+  </select>
+
+  <button id="locateMe">📍 Afficher ma position</button>
+
+  <div id="map"></div>
+  <div id="ville-infos"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([5.38215, -3.96512], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let marker;
+
+    document.getElementById('ville').addEventListener('change', async function () {
+      const [ville, lat, lng] = this.value.split(',');
+      const latFloat = parseFloat(lat);
+      const lngFloat = parseFloat(lng);
+      map.setView([latFloat, lngFloat], 12);
+
+      if (marker) marker.remove();
+      marker = L.marker([latFloat, lngFloat]).addTo(map)
+        .bindPopup(`📍 ${ville}`).openPopup();
+
+      // Infos basiques
+      document.getElementById('ville-infos').innerHTML = `<strong>Ville sélectionnée :</strong> ${ville}`;
+
+      // ➕ API météo
+      const API_KEY = '1294fe710b145ee9ed56b29a36638e87'; 
+      try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&lang=fr&appid=${API_KEY}`);
+        const data = await res.json();
+        const temp = data.main.temp;
+        const desc = data.weather[0].description;
+
+        document.getElementById('ville-infos').innerHTML += `<br><strong>Météo :</strong> ${temp}°C, ${desc}`;
+      } catch (error) {
+        document.getElementById('ville-infos').innerHTML += `<br>❌ Impossible de charger la météo.`;
+      }
+    });
+
+    document.getElementById('locateMe').addEventListener('click', () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const { latitude, longitude } = position.coords;
+          map.setView([latitude, longitude], 13);
+          if (marker) marker.remove();
+          marker = L.marker([latitude, longitude]).addTo(map)
+            .bindPopup("📍 Vous êtes ici !").openPopup();
+        }, () => {
+          alert("Impossible de récupérer votre position.");
+        });
+      } else {
+        alert("Géolocalisation non supportée.");
+      }
+    });
+  </script>
+
+</body>
+</html>
